@@ -14,11 +14,11 @@ As of this writing, the following classes are slated to be introduced in the nex
 
 `ofSoundFile` allows you to extract uncompressed ofSoundBuffers from files.
 
-`ofSoundObject` is an interface for chaining bits of sound code together, similar to how a guitarist might use guitar pedals. This is mostly relevant for addon authors or people looking to share their audio processing code.
+`ofSoundObject` is an interface for chaining bits of sound code together, similar to how a guitarist might use guitar pedals. This one is mostly relevant for addon authors or people looking to share their audio processing code.
 
 ## Getting Started With Sound Files
 
-Playing a sound file is only a couple lines of code in openFrameworks. Just point an `ofSoundPlayer` at a file stored in your app's data folder and tell it to play.
+Playing a sound file is only a couple of lines of code in openFrameworks. Just point an `ofSoundPlayer` at a file stored in your app's data folder and tell it to play.
 
     class ofApp : public ofBaseApp {
       ...
@@ -30,7 +30,7 @@ Playing a sound file is only a couple lines of code in openFrameworks. Just poin
       soundPlayer.play();
     }
 
-This is fine for adding some background music or ambiance to your app, but ofSoundPlayer comes with a few extra features that are particularly handy for handling sound effects.
+This is fine for adding some background music or ambiance to your app, but 'ofSoundPlayer' comes with a few extra features that are particularly handy for handling sound effects.
 
 "Multiplay" allows you to have a file playing several times simultaneously. This is great for any sound effect which might end up getting triggered rapidly, so you don't get stuck with an unnatural cutoff as the player's playhead abruptly jumps back to the beginning of the file. Multiplay isn't on by default. Use `soundPlayer.setMultiPlay(true)` to enable it. Then you can get natural sound effect behaviour with dead-simple trigger logic like this:
 
