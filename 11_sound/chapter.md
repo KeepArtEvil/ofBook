@@ -38,7 +38,7 @@ This is fine for adding some background music or ambiance to your app, but 'ofSo
       soundPlayer.play();
     }
 
-Another feature built-in to ofSoundPlayer is speed control. If you set the speed faster than normal, the sound's pitch will rise accordingly, and vice-versa (just like a vinyl record). Playback speed is defined relative to "1", so "0.5" is half speed and "2" is double speed.
+Another feature built-in to ofSoundPlayer is speed control. If you set the speed faster than normal, the sound's pitch will rise accordingly, and vice-versa (just like a vinyl record). Playback speed is defined relative to 1, so 0.5 is half speed and 2 is double speed.
 
 Speed control and multiplay are made for each other. Making use of both simultaneously can really extend the life of a single sound effect file. Every time you change a sound player's playback speed with multiplay enabled, previously triggered sound effects continue on unaffected. So, by extending the above trigger logic to something like...
 
@@ -49,7 +49,7 @@ Speed control and multiplay are made for each other. Making use of both simultan
 
 ...you'll introduce a bit of unique character to each instance of the sound.
 
-One other big feature of ofSoundPlayer is easy spectrum access. On the desktop platforms, you can make use of ofSoundGetSpectrum() to get the *frequency domain* representation of the sound coming from all of the currently active ofSoundPlayers in your app. An explanation of the frequency domain is coming a little later in this chapter, but running the openFrameworks *soundPlayerFFTExample* will give you the gist.
+One other big feature of ofSoundPlayer is easy spectrum access. On the desktop platforms, you can make use of ofSoundGetSpectrum() to get the *frequency domain* representation of the sound coming from all of the currently active ofSoundPlayers in your app. An explanation of the frequency domain comes later in this chapter, but running the openFrameworks *soundPlayerFFTExample* will give you a good idea of what is going on.
 
 Ultimately, ofSoundPlayer is a tradeoff between ease-of-use and control. You get access to multiplay and pitch-shifted playback but you don't get extremely precise control or access to the individual samples in the sound file. For this level of control, ofSoundStream is the tool for the job.
 
@@ -79,7 +79,7 @@ You may never have to use the ofSoundStream directly, but it's the object that m
       }
     }
 
-When producing or receiving audio, the format is floating point numbers between -1 and 1 (the reason for this is coming a little later in this chapter). The sound will arrive in your app in the form of *buffers*. Buffers are just arrays, but the term "buffer" implies that each time you get a new one, it represents the chunk of time after the previous buffer. The reason openFrameworks asks you for buffers (instead of individual samples) is due to the overhead involved in shuttling data from your program to the audio hardware, and is a little outside the scope of this book.
+When producing or receiving audio, the format is floating point numbers between -1 and 1 (the reason for this is explained later in this chapter). The sound will arrive in your app in the form of *buffers*. Buffers are just arrays, but the term "buffer" implies that each time you get a new one, it represents the chunk of time after the previous buffer. The reason openFrameworks asks you for buffers (instead of individual samples) is due to the overhead involved in shuttling data from your program to the audio hardware, and is a little outside the scope of this book.
 
 The buffer size is adjustable, but it's usually a good idea to leave it at the default. The default isn't any number in particular, but will usually be whatever the hardware on your computer prefers. In practice, this is probably about 512 samples per buffer (256 and 1024 are other common buffer sizes).
 
@@ -87,13 +87,13 @@ Sound buffers in openFrameworks are *interleaved* meaning that the samples for e
 
     [Left] [Right] [Left] [Right] ...
 
-This means you access individual sound channels in much the same way as accessing different colours in an ofPixels object (i.e. `buffer[i]` for the left channel, `buffer[i + 1]` for the right channel). The total size of the buffer you get in `audioIn()` / `audioOut()` can be calculated with `bufferSize * nChannels`.
+This means you access individual sound channels in much the same way as accessing different colours in the ofPixels object (i.e. `buffer[i]` for the left channel, `buffer[i + 1]` for the right channel). The total size of the buffer you get in `audioIn()` / `audioOut()` can be calculated with `bufferSize * nChannels`.
 
-An important caveat to keep in mind when dealing with ofSoundStream is that audio callbacks like `audioIn()` and `audioOut()` will be called on a seperate *thread* from the standard `setup()`, `update()`, `draw()` functions. This means that if you'd like to share any data between (for example) `update()` and `audioOut()`, you need to make use of an `ofMutex` to keep both threads from getting in each others' way. You can see this in action a little later in this chapter, or check out the threads chapter for a more in-depth explanation.
+An important caveat to keep in mind when dealing with ofSoundStream is that audio callbacks like `audioIn()` and `audioOut()` will be called on a separate *thread* from the standard `setup()`, `update()`, `draw()` functions. This means that if you'd like to share any data between (for example) `update()` and `audioOut()`, you need to make use of an `ofMutex` to keep both threads from getting in each others' way. You can see this in action a later in this chapter, or check out the threads chapter for a more in-depth explanation.
 
 ## Why -1 to 1?
 
-In order to understand *why* openFrameworks chooses to represent sound as a continuous stream of `float` values ranging from -1 to 1, it'll be helpful to know how sound is created on a physical level.
+In order to understand *why* openFrameworks chooses to represent sound as a continuous stream of `float` values ranging from -1 to 1, it's helpful to know how sound is created on a physical level.
 
 *[ a minimal picture showing the mechanics of a speaker, reference: http://wiki.backyardbrains.com/images/5/54/Exp5_fig7.jpg ]*
 
